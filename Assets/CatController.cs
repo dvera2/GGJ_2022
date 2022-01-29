@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class CatController : MonoBehaviour
 {
-    [Header("Movement")]
+    [Header("Cat")]
     public Animator CatAnim;
     public GameObject CatSprites;
+
+    [Header("Game Manager")]
+    public GameManager gm;
     
 
     [Header("Movement")]
@@ -102,6 +105,7 @@ public class CatController : MonoBehaviour
         if (other.tag == "Hide")
         {
             CatAnim.SetBool("isHiding", true);
+            gm.SetHidden();
         }
     }
 
@@ -111,6 +115,7 @@ public class CatController : MonoBehaviour
         if (other.tag == "Hide")
         {
             CatAnim.SetBool("isHiding", false);
+            gm.SetVisable();
         }
     }
 }
