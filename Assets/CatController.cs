@@ -79,7 +79,7 @@ public class CatController : MonoBehaviour
 
     private void OnCollisionEnter(Collision otherThing)
     {
-        if (otherThing.gameObject.tag == "floor")
+        if ((otherThing.gameObject.tag == "floor") || (otherThing.gameObject.tag == "Shelf"))
         {
             isJumping = false;
             CatAnim.SetBool("isJumping", false);

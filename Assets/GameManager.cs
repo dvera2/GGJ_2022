@@ -9,12 +9,17 @@ public class GameManager : MonoBehaviour
     public GameObject Cat;
     public GameObject SafeMessage;
 
+    public TextMeshProUGUI score;
+
     public bool isHidden;
+
+    int points;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        points = 0;
+        score.text = "Points:"+ points;
     }
 
     // Update is called once per frame
@@ -33,5 +38,11 @@ public class GameManager : MonoBehaviour
     {
         SafeMessage.SetActive(false);
         isHidden = false;
+    }
+
+    public void AddPoint()
+    {
+        points++;
+        score.text = "Points:" + points;
     }
 }
