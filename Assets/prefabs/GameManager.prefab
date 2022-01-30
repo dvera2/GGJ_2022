@@ -45,5 +45,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Cat: {fileID: 0}
   SafeMessage: {fileID: 0}
+  Human: {fileID: 0}
+  humanIcon: {fileID: 0}
   score: {fileID: 0}
+  Safetimer: {fileID: 0}
+  caught: {fileID: 0}
   isHidden: 0
+  isHumanAround: 0
