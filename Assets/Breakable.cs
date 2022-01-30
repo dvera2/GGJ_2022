@@ -23,6 +23,7 @@ public class Breakable : MonoBehaviour
         if (collision.gameObject.tag == "floor")
         {
             gm.AddPoint();
+            Destroy(this.gameObject);
         }
     }
 }
