@@ -4916,6 +4916,10 @@ PrefabInstance:
       propertyPath: shatter
       value: 
       objectReference: {fileID: 8741844184004444479}
+    - target: {fileID: 836047771525794964, guid: 316b4a608e128684290f369f53d4731f, type: 3}
+      propertyPath: ItemValue
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 836047771525794968, guid: 316b4a608e128684290f369f53d4731f, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -4974,7 +4978,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 836047771525794975, guid: 316b4a608e128684290f369f53d4731f, type: 3}
       propertyPath: m_IsTrigger
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 316b4a608e128684290f369f53d4731f, type: 3}

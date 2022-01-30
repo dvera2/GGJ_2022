@@ -22,6 +22,12 @@ public class CatController : MonoBehaviour
     [SerializeField]
     float jumpHeight;
 
+    [SerializeField]
+    float extraGravity;
+
+    [SerializeField, Range(0,1)]
+    float airControl;
+
     bool isJumpingPressed;
     bool isJumping;
     public bool isFreakingOut;
@@ -48,9 +54,25 @@ public class CatController : MonoBehaviour
             SetDirection(direction);
 
         }
+        else
+        {
+            // check if a button is being pressed, if it is, move a bit in that direction
+            if(Mathf.Abs(direction) > 0.01f)
+            {
+                float x = body.velocity.x;
+                x += direction * Time.deltaTime * speed * 2.0f * airControl;
+                x = Mathf.Clamp( x, -speed, speed );
+                body.velocity = new Vector3( 0, body.velocity.y, 0 );
+                body.AddForce( x * Vector3.right, ForceMode.VelocityChange);
+                SetDirection( direction );
+            }
 
+        }
 
-            setFreakingOut(isFreakingOut);
+        // push cat down a bit more
+        body.AddForce( extraGravity * Vector3.up, ForceMode.Acceleration );
+
+        setFreakingOut(isFreakingOut);
 
 //Jump
         if (!isJumping && isJumpingPressed)
