@@ -8,6 +8,7 @@ public class CameraFollow : MonoBehaviour
     public Transform Cat;
     Vector3 currentPos;
     float catX;
+    float catY;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class CameraFollow : MonoBehaviour
     {
         currentPos = Cat.position;
         catX = currentPos.x;
-        transform.position = new Vector3(catX, transform.position.y, transform.position.z);
+        catY = currentPos.y;
+        transform.position = new Vector3(catX, catY, transform.position.z);
     }
 }

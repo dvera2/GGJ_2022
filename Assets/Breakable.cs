@@ -5,11 +5,15 @@ using UnityEngine;
 public class Breakable : MonoBehaviour
 {
     public GameManager gm;
+    public AudioClip sfx;
+    public ParticleSystem shatter;
+    AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = sfx;
     }
 
     // Update is called once per frame
@@ -22,8 +26,11 @@ public class Breakable : MonoBehaviour
     {
         if (collision.gameObject.tag == "floor")
         {
+            shatter.Play();
+            
+            audioSource.Play();
             gm.AddPoint();
-            Destroy(this.gameObject);
+          //  Destroy(this.gameObject);
         }
     }
 }

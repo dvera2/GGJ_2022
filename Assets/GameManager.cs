@@ -15,10 +15,11 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI Safetimer;
     public TextMeshProUGUI caught;
 
-    float safeTime;
+    float safeTime = 5.0f;
     bool safeTimerIsRunning;
 
     float unsafeTime;
+    bool unsafeTimerIsRunning;
 
     public bool isHidden;
     public bool isHumanAround;
@@ -49,14 +50,34 @@ public class GameManager : MonoBehaviour
                 safeTime -= Time.deltaTime;
                 Safetimer.text = Mathf.Floor(safeTime).ToString();
             }
+
+            if (safeTime <= 0)
+            {
+                makeHumanActive();
+                safeTimerIsRunning = false;
+                unsafeTimerIsRunning = true;
+                unsafeTime = 5.0f;
+            }
         }
 
-        if (safeTime <= 0)
+
+
+        if (unsafeTimerIsRunning)
         {
-            safeTime = 0;
-            Safetimer.text = Mathf.Floor(safeTime).ToString();
-            makeHumanActive();
-            safeTimerIsRunning = false;
+            if (unsafeTime > 0)
+            {
+                unsafeTime -= Time.deltaTime;
+                Safetimer.text = "UNSAFE: "+ Mathf.Floor(unsafeTime).ToString();
+            }
+
+            if(unsafeTime <= 0)
+            {
+                makeHumanInactive();
+                unsafeTimerIsRunning = false;               
+                safeTimerIsRunning = true;
+                setSafeTimer();
+
+            }
         }
 
 
@@ -101,6 +122,13 @@ public class GameManager : MonoBehaviour
         
     }
 
+    void makeHumanInactive()
+    {
+        Human.SetActive(false);
+        humanIcon.SetActive(false);
+
+    }
+
     void yourCaught()
     {
         caught.gameObject.SetActive(true);
@@ -108,9 +136,8 @@ public class GameManager : MonoBehaviour
 
     void setSafeTimer()
     {
-        float randomTime = Random.Range(2,5);
+        float randomTime = Random.Range(5,10);
         safeTime = randomTime;
-        Safetimer.text = safeTime.ToString();
         Debug.Log("Timer is set to "+safeTime);
     }
 
