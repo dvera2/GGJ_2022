@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         roomlight.color = darkRoom;
         PlayState.SetActive(true);
+        GameOverState.SetActive(false);
 
 
         setSafeTimer();
@@ -69,7 +70,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (safeTimerIsRunning)
+        if (safeTimerIsRunning && !isGameOver)
         {
             if (safeTime > 0)
             {
@@ -92,7 +93,7 @@ public class GameManager : MonoBehaviour
 
 
 
-        if (unsafeTimerIsRunning)
+        if (unsafeTimerIsRunning && !isGameOver)
         {
             if (unsafeTime > 0)
             {
