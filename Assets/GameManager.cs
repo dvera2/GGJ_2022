@@ -14,6 +14,10 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI score;
     public TextMeshProUGUI Safetimer;
     public TextMeshProUGUI caught;
+    public AudioClip Footsteps;
+    public AudioClip DoorOpen;
+    public AudioClip DoorClose;
+    AudioSource audioSource;
 
     float safeTime = 5.0f;
     bool safeTimerIsRunning;
@@ -32,6 +36,7 @@ public class GameManager : MonoBehaviour
         points = 0;
         score.text = "Points:"+ points;
         safeTimerIsRunning = true;
+        audioSource = GetComponent<AudioSource>();
 
         setSafeTimer();
         
@@ -53,10 +58,8 @@ public class GameManager : MonoBehaviour
 
             if (safeTime <= 0)
             {
-                makeHumanActive();
-                safeTimerIsRunning = false;
-                unsafeTimerIsRunning = true;
-                unsafeTime = 5.0f;
+                StartCoroutine("HumansComing");
+                
             }
         }
 
@@ -138,7 +141,25 @@ public class GameManager : MonoBehaviour
     {
         float randomTime = Random.Range(5,10);
         safeTime = randomTime;
-        Debug.Log("Timer is set to "+safeTime);
+    }
+
+    IEnumerator HumansComing()
+    {
+        Safetimer.text = "Careful!!";
+        audioSource.clip = Footsteps;
+        audioSource.Play();
+
+        yield return new WaitForSeconds(3);
+
+        audioSource.clip = DoorOpen;
+
+        yield return new WaitForSeconds(1);
+
+        audioSource.Play();
+        makeHumanActive();
+        safeTimerIsRunning = false;
+        unsafeTimerIsRunning = true;
+        unsafeTime = 5.0f;
     }
 
 }
