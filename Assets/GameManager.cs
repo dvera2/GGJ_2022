@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public Light roomlight;
     public Color darkRoom;
     public Color lightRoom;
+    public Animator doorAnim;
 
     public TextMeshProUGUI score;
     public TextMeshProUGUI Safetimer;
@@ -182,10 +183,13 @@ public class GameManager : MonoBehaviour
 
     void makeHumanInactive()
     {
+        doorAnim.SetBool("IsOpen", false);
         audioSource.clip = DoorClose;
         audioSource.Play();
         Human.SetActive(false);
         humanIcon.SetActive(false);
+        roomlight.color = darkRoom;
+        
 
     }
 
@@ -218,8 +222,10 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3);
 
         audioSource.clip = DoorOpen;
+        roomlight.color = lightRoom;
         Debug.Log( "DoorOpen" );
-
+        
+        doorAnim.SetBool("IsOpen", true);
         yield return new WaitForSeconds(1);
 
         audioSource.Play();
