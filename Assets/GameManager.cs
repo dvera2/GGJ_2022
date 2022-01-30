@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
     public int breakablesInRoom;
 
 
-    int points;
+    float points;
     bool isGameOver;
     bool isFreakingOut;
 
@@ -156,15 +156,16 @@ public class GameManager : MonoBehaviour
         isHidden = false;
     }
 
-    public void AddPoint()
+ //Add Points
+    public void AddPoint(float value)
     {
         if (isFreakingOut)
         {
-            points += 2;
+            points += value*2;
         }
         else
         {
-            points++;
+            points += value;
         }
         breakablesInRoom--;
         score.text = "Points:" + points;
@@ -218,19 +219,19 @@ public class GameManager : MonoBehaviour
         Safetimer.text = "Act natural!!";
         audioSource.clip = Footsteps;
         audioSource.Play();
-        Debug.Log( "Footsteps" );
+        //Debug.Log( "Footsteps" );
 
         yield return new WaitForSeconds(3);
 
         audioSource.clip = DoorOpen;
         roomlight.color = lightRoom;
-        Debug.Log( "DoorOpen" );
+       // Debug.Log( "DoorOpen" );
         
         doorAnim.SetBool("IsOpen", true);
         yield return new WaitForSeconds(1);
 
         audioSource.Play();
-        Debug.Log( "Play #1" );
+     //   Debug.Log( "Play #1" );
         makeHumanActive();
         safeTimerIsRunning = false;
         unsafeTimerIsRunning = true;

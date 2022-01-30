@@ -11,6 +11,9 @@ public class Breakable : MonoBehaviour
     AudioSource audioSource;
     Collider breakCollider;
 
+    [Header("Value")]
+    public float ItemValue;
+
     bool broken;
 
     // Start is called before the first frame update
@@ -37,7 +40,7 @@ public class Breakable : MonoBehaviour
                 broken = true;
                 shatter.Play();
                 audioSource.Play();
-                gm.AddPoint();
+                gm.AddPoint(ItemValue);
                 breakCollider.enabled = false;
                 breakableImage.SetActive(false);
                 Destroy(this.gameObject, 3);
