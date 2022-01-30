@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour
     public GameObject SafeMessage;
     public GameObject Human;
     public GameObject humanIcon;
+    public Light roomlight;
+    public Color darkRoom;
+    public Color lightRoom;
 
     public TextMeshProUGUI score;
     public TextMeshProUGUI Safetimer;
@@ -37,6 +40,7 @@ public class GameManager : MonoBehaviour
         score.text = "Points:"+ points;
         safeTimerIsRunning = true;
         audioSource = GetComponent<AudioSource>();
+        roomlight.color = darkRoom;
 
         setSafeTimer();
         
@@ -58,6 +62,7 @@ public class GameManager : MonoBehaviour
 
             if (safeTime <= 0)
             {
+                safeTimerIsRunning = false;
                 StartCoroutine("HumansComing");
                 
             }
@@ -127,6 +132,8 @@ public class GameManager : MonoBehaviour
 
     void makeHumanInactive()
     {
+        audioSource.clip = DoorClose;
+        audioSource.Play();
         Human.SetActive(false);
         humanIcon.SetActive(false);
 
