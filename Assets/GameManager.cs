@@ -202,6 +202,7 @@ public class GameManager : MonoBehaviour
         }
         caught.gameObject.SetActive(true);
         PlayState.SetActive(false);
+        freakingOutTrippin.SetActive(false);
         GameOverState.SetActive(true);
         finalScore.text = points.ToString();
     }
