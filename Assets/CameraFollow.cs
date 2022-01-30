@@ -19,9 +19,12 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        currentPos = Cat.position;
-        catX = currentPos.x;
-        catY = currentPos.y;
-        transform.position = new Vector3(catX, catY, transform.position.z);
+        if( Cat )
+        {
+            currentPos = Cat.position;
+            catX = currentPos.x;
+            catY = currentPos.y;
+            transform.position = new Vector3( catX, catY, transform.position.z );
+        }
     }
 }

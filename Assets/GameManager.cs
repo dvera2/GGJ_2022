@@ -212,14 +212,17 @@ public class GameManager : MonoBehaviour
         Safetimer.text = "Act natural!!";
         audioSource.clip = Footsteps;
         audioSource.Play();
+        Debug.Log( "Footsteps" );
 
         yield return new WaitForSeconds(3);
 
         audioSource.clip = DoorOpen;
+        Debug.Log( "DoorOpen" );
 
         yield return new WaitForSeconds(1);
 
         audioSource.Play();
+        Debug.Log( "Play #1" );
         makeHumanActive();
         safeTimerIsRunning = false;
         unsafeTimerIsRunning = true;
