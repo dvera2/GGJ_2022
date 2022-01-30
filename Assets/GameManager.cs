@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         points = 0;
-        score.text = "Points:"+ points;
+        score.text = "Damage: $"+ points;
         safeTimerIsRunning = true;
         audioSource = GetComponent<AudioSource>();
         roomlight.color = darkRoom;
@@ -76,7 +76,7 @@ public class GameManager : MonoBehaviour
             if (safeTime > 0)
             {
                 safeTime -= Time.deltaTime;
-                Safetimer.text = Mathf.Floor(safeTime).ToString();
+                Safetimer.text = "Distory it all!!";
             }
 
             if (safeTime <= 0)
@@ -99,7 +99,7 @@ public class GameManager : MonoBehaviour
             if (unsafeTime > 0)
             {
                 unsafeTime -= Time.deltaTime;
-                Safetimer.text = "UNSAFE: "+ Mathf.Floor(unsafeTime).ToString();
+                Safetimer.text = "Careful! He's Watching.";
 
                 if (isFreakingOut)
                 {
@@ -168,7 +168,7 @@ public class GameManager : MonoBehaviour
             points += value;
         }
         breakablesInRoom--;
-        score.text = "Points:" + points;
+        score.text = "Damage $" + points;
         if (!safeTimerIsRunning)
         {
             GameOver();
@@ -199,13 +199,21 @@ public class GameManager : MonoBehaviour
         isGameOver = true;
         if (breakablesInRoom == 0)
         {
-            finalMessage.text = "You broke everything!";
+            finalMessage.text = "Sucess! You broke everything!";
+        }
+        else if (isFreakingOut)
+        {
+            finalMessage.text = "You got caught tripping...";
+        }
+        else
+        {
+            finalMessage.text = "You got caught distorying...";
         }
         caught.gameObject.SetActive(true);
         PlayState.SetActive(false);
         freakingOutTrippin.SetActive(false);
         GameOverState.SetActive(true);
-        finalScore.text = points.ToString();
+        finalScore.text = "$"+points.ToString();
     }
 
     void setSafeTimer()
@@ -240,6 +248,7 @@ public class GameManager : MonoBehaviour
 
     public void reloadScene()
     {
+        Debug.Log("Realoading Scene?");
         Scene scene = SceneManager.GetActiveScene(); 
         SceneManager.LoadScene(scene.name);
     }
