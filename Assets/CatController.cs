@@ -24,6 +24,7 @@ public class CatController : MonoBehaviour
 
     bool isJumpingPressed;
     bool isJumping;
+    public bool isFreakingOut;
 
 
     // Start is called before the first frame update
@@ -49,8 +50,8 @@ public class CatController : MonoBehaviour
         }
 
 
+            setFreakingOut(isFreakingOut);
 
-        
 //Jump
         if (!isJumping && isJumpingPressed)
         {
@@ -60,6 +61,26 @@ public class CatController : MonoBehaviour
 
             Debug.Log("force is applied");
         }
+    }
+
+    public void setFreakingOut(bool freaking)
+    {
+        if (freaking)
+        {
+            // remove FreezeRotationZ
+            body.constraints &= ~RigidbodyConstraints.FreezeRotationZ;
+            gm.SetFreakingOutTrue();
+            StartCoroutine("onCatnip");
+
+        }
+        else
+        {
+            // set freezeRotation
+            body.constraints |= RigidbodyConstraints.FreezeRotationZ;
+            body.rotation = Quaternion.identity;
+            gm.SetFreakingOutFalse();
+        }
+
     }
 
     private void Update()
@@ -83,6 +104,12 @@ public class CatController : MonoBehaviour
         {
             isJumping = false;
             CatAnim.SetBool("isJumping", false);
+        }
+
+        if(otherThing.gameObject.tag == "Catnip")
+        {
+            isFreakingOut = true;
+            Destroy(otherThing.gameObject);
         }
         
     }
@@ -118,4 +145,14 @@ public class CatController : MonoBehaviour
             gm.SetVisable();
         }
     }
+
+    IEnumerator onCatnip()
+    {
+        yield return new WaitForSeconds(5);
+        gm.SetFreakingOutFalse();
+        isFreakingOut = false;
+
+    }
+
+
 }

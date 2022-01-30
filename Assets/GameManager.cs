@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -31,7 +32,19 @@ public class GameManager : MonoBehaviour
     public bool isHidden;
     public bool isHumanAround;
 
+    [Header("Ui States")]
+    public GameObject PlayState;
+    public GameObject GameOverState;
+    public TextMeshProUGUI finalScore;
+    public GameObject freakingOutTrippin;
+    public int breakablesInRoom;
+
+
     int points;
+    bool isGameOver;
+    bool isFreakingOut;
+  //  CatController cc;
+
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +54,8 @@ public class GameManager : MonoBehaviour
         safeTimerIsRunning = true;
         audioSource = GetComponent<AudioSource>();
         roomlight.color = darkRoom;
+        PlayState.SetActive(true);
+ //       cc = Cat.GetComponent<CatController>();
 
         setSafeTimer();
         
@@ -68,6 +83,11 @@ public class GameManager : MonoBehaviour
             }
         }
 
+        if (breakablesInRoom == 0)
+        {
+            Debug.Log("Everything is Broken!");
+        }
+
 
 
         if (unsafeTimerIsRunning)
@@ -76,6 +96,11 @@ public class GameManager : MonoBehaviour
             {
                 unsafeTime -= Time.deltaTime;
                 Safetimer.text = "UNSAFE: "+ Mathf.Floor(unsafeTime).ToString();
+
+                if (isFreakingOut)
+                {
+                    GameOver();
+                }
             }
 
             if(unsafeTime <= 0)
@@ -95,10 +120,24 @@ public class GameManager : MonoBehaviour
 
             if (!isHidden)
             {
-                yourCaught();
+                GameOver();
             }
         }
         
+    }
+
+    public void SetFreakingOutTrue()
+    {
+        isFreakingOut = true;
+        freakingOutTrippin.SetActive(true);
+        
+    }
+
+    public void SetFreakingOutFalse()
+    {
+        isFreakingOut = false;
+        freakingOutTrippin.SetActive(false);
+
     }
 
     public void SetHidden()
@@ -115,12 +154,20 @@ public class GameManager : MonoBehaviour
 
     public void AddPoint()
     {
+        if (isFreakingOut)
+        {
+            points += 2;
+        }
+        else
+        {
+            points++;
+        }
+        
+        score.text = "Points:" + points;
         if (!safeTimerIsRunning)
         {
-            yourCaught();
+            GameOver();
         }
-        points++;
-        score.text = "Points:" + points;
     }
 
     void makeHumanActive()
@@ -139,9 +186,12 @@ public class GameManager : MonoBehaviour
 
     }
 
-    void yourCaught()
+    void GameOver()
     {
         caught.gameObject.SetActive(true);
+        PlayState.SetActive(false);
+        GameOverState.SetActive(true);
+        finalScore.text = points.ToString();
     }
 
     void setSafeTimer()
@@ -152,7 +202,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator HumansComing()
     {
-        Safetimer.text = "Careful!!";
+        Safetimer.text = "Hide!!";
         audioSource.clip = Footsteps;
         audioSource.Play();
 
@@ -168,5 +218,7 @@ public class GameManager : MonoBehaviour
         unsafeTimerIsRunning = true;
         unsafeTime = 5.0f;
     }
+
+
 
 }

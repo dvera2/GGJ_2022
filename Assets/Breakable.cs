@@ -11,6 +11,8 @@ public class Breakable : MonoBehaviour
     AudioSource audioSource;
     Collider breakCollider;
 
+    bool broken;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,12 +32,17 @@ public class Breakable : MonoBehaviour
     {
         if (collision.gameObject.tag == "floor")
         {
-            shatter.Play();          
-            audioSource.Play();
-            gm.AddPoint();
-            breakCollider.enabled = false;
-            breakableImage.SetActive(false);
-            Destroy(this.gameObject, 3);
+            if (!broken)
+            {
+                broken = true;
+                shatter.Play();
+                audioSource.Play();
+                gm.AddPoint();
+                breakCollider.enabled = false;
+                breakableImage.SetActive(false);
+                Destroy(this.gameObject, 3);
+            }
+         
         }
     }
 
