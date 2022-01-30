@@ -133,6 +133,8 @@ public class CatController : MonoBehaviour
         {
             CatAnim.SetBool("isHiding", true);
             gm.SetHidden();
+            isFreakingOut = false;
+            gm.SetFreakingOutFalse();
         }
     }
 
@@ -143,6 +145,7 @@ public class CatController : MonoBehaviour
         {
             CatAnim.SetBool("isHiding", false);
             gm.SetVisable();
+            
         }
     }
 

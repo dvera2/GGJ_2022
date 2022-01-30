@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
     public GameObject PlayState;
     public GameObject GameOverState;
     public TextMeshProUGUI finalScore;
+    public TextMeshProUGUI finalMessage;
     public GameObject freakingOutTrippin;
     public int breakablesInRoom;
 
@@ -43,7 +45,7 @@ public class GameManager : MonoBehaviour
     int points;
     bool isGameOver;
     bool isFreakingOut;
-  //  CatController cc;
+
 
 
     // Start is called before the first frame update
@@ -55,7 +57,7 @@ public class GameManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         roomlight.color = darkRoom;
         PlayState.SetActive(true);
- //       cc = Cat.GetComponent<CatController>();
+
 
         setSafeTimer();
         
@@ -83,9 +85,9 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (breakablesInRoom == 0)
+        if (breakablesInRoom == 0 && !isGameOver)
         {
-            Debug.Log("Everything is Broken!");
+            GameOver();
         }
 
 
@@ -162,7 +164,7 @@ public class GameManager : MonoBehaviour
         {
             points++;
         }
-        
+        breakablesInRoom--;
         score.text = "Points:" + points;
         if (!safeTimerIsRunning)
         {
@@ -188,6 +190,11 @@ public class GameManager : MonoBehaviour
 
     void GameOver()
     {
+        isGameOver = true;
+        if (breakablesInRoom == 0)
+        {
+            finalMessage.text = "You broke everything!";
+        }
         caught.gameObject.SetActive(true);
         PlayState.SetActive(false);
         GameOverState.SetActive(true);
@@ -202,7 +209,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator HumansComing()
     {
-        Safetimer.text = "Hide!!";
+        Safetimer.text = "Act natural!!";
         audioSource.clip = Footsteps;
         audioSource.Play();
 
@@ -217,6 +224,12 @@ public class GameManager : MonoBehaviour
         safeTimerIsRunning = false;
         unsafeTimerIsRunning = true;
         unsafeTime = 5.0f;
+    }
+
+    public void reloadScene()
+    {
+        Scene scene = SceneManager.GetActiveScene(); 
+        SceneManager.LoadScene(scene.name);
     }
 
 
