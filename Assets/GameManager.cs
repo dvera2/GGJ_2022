@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static event System.Action<float> OnPointsAdded;
+    public static void TriggerAddPoint( float points ) => OnPointsAdded?.Invoke( points );
 
     public GameObject Cat;
     public GameObject SafeMessage;
@@ -47,6 +49,15 @@ public class GameManager : MonoBehaviour
     bool isGameOver;
     bool isFreakingOut;
 
+    private void Awake()
+    {
+        OnPointsAdded += AddPoint;
+    }
+
+    private void OnDestroy()
+    {
+        OnPointsAdded -= AddPoint;
+    }
 
 
     // Start is called before the first frame update

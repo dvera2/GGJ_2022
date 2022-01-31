@@ -5076,6 +5076,8 @@ MonoBehaviour:
   sfx: {fileID: 8300000, guid: d9f08b1e678e7904ab11f0a4252d7adf, type: 3}
   shatter: {fileID: 449109034}
   breakableImage: {fileID: 1565369334}
+  body: {fileID: 0}
+  ItemValue: 0
 --- !u!82 &291192169
 AudioSource:
   m_ObjectHideFlags: 0

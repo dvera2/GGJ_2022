@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Breakable : MonoBehaviour
 {
-    public GameManager gm;
     public AudioClip sfx;
     public ParticleSystem shatter;
     public GameObject breakableImage;
     AudioSource audioSource;
     Collider breakCollider;
+    public Rigidbody body;
 
     [Header("Value")]
     public float ItemValue;
@@ -31,6 +31,15 @@ public class Breakable : MonoBehaviour
         
     }
 
+    private void OnTriggerEnter( Collider other )
+    {
+        if( other.gameObject.GetComponent<CatController>() )
+        {
+            body.isKinematic = false;
+            body.AddForceAtPosition( other.attachedRigidbody.velocity * 0.5f, body.position );
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "floor")
@@ -40,7 +49,7 @@ public class Breakable : MonoBehaviour
                 broken = true;
                 shatter.Play();
                 audioSource.Play();
-                gm.AddPoint(ItemValue);
+                GameManager.TriggerAddPoint(ItemValue);
                 breakCollider.enabled = false;
                 breakableImage.SetActive(false);
                 Destroy(this.gameObject, 3);
