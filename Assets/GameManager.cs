@@ -278,10 +278,12 @@ public class GameManager : MonoBehaviour
         audioSource.Play();
         Debug.Log( "Footsteps" );
 
-        yield return new WaitForSeconds(3);
-
+        yield return new WaitForSeconds( 2 );
         if( HumanCamera )
             HumanCamera.SetActive( true );
+
+        yield return new WaitForSeconds(1);
+
         audioSource.clip = DoorOpen;
         roomlight.color = lightRoom;
        Debug.Log( "DoorOpen" );
