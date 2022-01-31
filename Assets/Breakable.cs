@@ -44,18 +44,37 @@ public class Breakable : MonoBehaviour
     {
         if (collision.gameObject.tag == "floor")
         {
-            if (!broken)
-            {
-                broken = true;
-                shatter.Play();
-                audioSource.Play();
-                GameManager.TriggerAddPoint(ItemValue);
-                breakCollider.enabled = false;
-                breakableImage.SetActive(false);
-                Destroy(this.gameObject, 3);
-            }
-         
+            BreakThing();
+
         }
     }
+
+    private void BreakThing()
+    {
+        if( !broken )
+        {
+            broken = true;
+            shatter.Play();
+            audioSource.Play();
+            GameManager.TriggerAddPoint( ItemValue );
+            breakCollider.enabled = false;
+            breakableImage.SetActive( false );
+            Destroy( this.gameObject, 3 );
+        }
+    }
+
+    float timeTouched = 0;
+    private void OnCollisionStay( Collision collision )
+    {
+        if( collision.gameObject.CompareTag("Player") )
+        {
+            timeTouched += Time.fixedDeltaTime;
+
+            if( timeTouched > 1.0f )
+                BreakThing();
+        }
+    }
+
+
 
 }

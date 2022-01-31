@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     public Color darkRoom;
     public Color lightRoom;
     public Animator doorAnim;
+    public AudioSource music;
 
     public TextMeshProUGUI score;
     public TextMeshProUGUI Safetimer;
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
     public AudioClip DoorOpen;
     public AudioClip DoorClose;
     public AudioClip CatWow;
+    public AudioClip HumanWalksIn;
     AudioSource audioSource;
 
     [Header("Set Timers")]
@@ -70,7 +72,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         points = 0;
-        score.text = "Damage: $"+ points;
+        score.text = points.ToString();
         safeTimerIsRunning = true;
         audioSource = GetComponent<AudioSource>();
         roomlight.color = darkRoom;
@@ -93,7 +95,7 @@ public class GameManager : MonoBehaviour
             if (safeTime > 0)
             {
                 safeTime -= Time.deltaTime;
-                Safetimer.text = "Distory it all!!";
+                Safetimer.text = "Coast is clear! Destroy it all!!";
             }
 
             if (safeTime <= 0)
@@ -149,10 +151,12 @@ public class GameManager : MonoBehaviour
 
     public void SetFreakingOutTrue()
     {
-
-        isFreakingOut = true;
-        freakingOutTrippin.SetActive(true);
- 
+        if( !isGameOver )
+        {
+            isFreakingOut = true;
+            freakingOutTrippin.SetActive( true );
+            music.volume = 0.3f;
+        }
         
     }
 
@@ -165,9 +169,13 @@ public class GameManager : MonoBehaviour
 
     public void SetFreakingOutFalse()
     {
+        if( isFreakingOut )
+            music.volume = 1f;
+
         isFreakingOut = false;
         freakingOutTrippin.SetActive(false);
-
+        if( audioSource.clip == CatWow )
+            audioSource.Stop();
     }
 
     public void SetHidden()
@@ -192,8 +200,10 @@ public class GameManager : MonoBehaviour
             points += value;
         }
         breakablesInRoom--;
-        score.text = "Damage $" + points;
-        if (!safeTimerIsRunning)
+        score.text = points.ToString();
+
+        // if human is around, lose
+        if (Human.activeSelf)
         {
             GameOver();
         }
@@ -201,9 +211,17 @@ public class GameManager : MonoBehaviour
 
     void makeHumanActive()
     {
+        if(!Human.activeSelf)
+        {
+            audioSource.clip = HumanWalksIn;
+            audioSource.Play();
+        }
+
         Human.SetActive(true);
         humanIcon.SetActive(true);
         
+
+        music.volume = 0.25f;
     }
 
     void makeHumanInactive()
@@ -214,7 +232,7 @@ public class GameManager : MonoBehaviour
         Human.SetActive(false);
         humanIcon.SetActive(false);
         roomlight.color = darkRoom;
-        
+        music.volume = 1f;
 
     }
 
@@ -224,15 +242,15 @@ public class GameManager : MonoBehaviour
         isFreakingOut = false;
         if (breakablesInRoom == 0)
         {
-            finalMessage.text = "Sucess! You broke everything!";
+            finalMessage.text = "Success! You broke everything!";
         }
         else if (isFreakingOut)
         {
-            finalMessage.text = "You got caught tripping...";
+            finalMessage.text = "Bad Kitty! You got caught nip-tripping...";
         }
         else
         {
-            finalMessage.text = "You got caught destorying stuff...";
+            finalMessage.text = "Bad Kitty! You got caught destroying stuff...";
         }
         caught.gameObject.SetActive(true);
         PlayState.SetActive(false);
@@ -249,7 +267,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator HumansComing()
     {
-        Safetimer.text = "Act natural!!";
+        Safetimer.text = "Quick, act natural!";
         audioSource.clip = Footsteps;
         audioSource.Play();
         Debug.Log( "Footsteps" );

@@ -32,11 +32,12 @@ public class CatController : MonoBehaviour
     bool isJumping;
     public bool isFreakingOut;
 
+    SpriteRenderer sprites;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        sprites = CatSprites.GetComponentInChildren<SpriteRenderer>();
     }
 
     // Update is called once per frame
@@ -143,9 +144,8 @@ public class CatController : MonoBehaviour
         {
             return;
         }
-        Vector3 CatScale = CatSprites.transform.localScale;
-        CatScale.x = Mathf.Abs(CatScale.x) * Mathf.Sign(dir);
-        CatSprites.transform.localScale = CatScale;
+
+        sprites.flipX = dir < 0;
         CatAnim.SetFloat("Walking", Mathf.Abs(dir));
     }
 
