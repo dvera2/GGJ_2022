@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
   //  public GameObject SafeMessage;
     public GameObject Human;
     public GameObject humanIcon;
+    public GameObject HumanCamera;
     public Light roomlight;
     public Color darkRoom;
     public Color lightRoom;
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
     public AudioClip DoorClose;
     public AudioClip CatWow;
     public AudioClip HumanWalksIn;
+    
     AudioSource audioSource;
 
     [Header("Set Timers")]
@@ -155,7 +157,7 @@ public class GameManager : MonoBehaviour
         {
             isFreakingOut = true;
             freakingOutTrippin.SetActive( true );
-            music.volume = 0.3f;
+            music.volume = 0.1f;
         }
         
     }
@@ -170,12 +172,15 @@ public class GameManager : MonoBehaviour
     public void SetFreakingOutFalse()
     {
         if( isFreakingOut )
+        {
             music.volume = 1f;
+            if( audioSource.clip == CatWow )
+                audioSource.Stop();
+        }
 
         isFreakingOut = false;
         freakingOutTrippin.SetActive(false);
-        if( audioSource.clip == CatWow )
-            audioSource.Stop();
+       
     }
 
     public void SetHidden()
@@ -218,8 +223,7 @@ public class GameManager : MonoBehaviour
         }
 
         Human.SetActive(true);
-        humanIcon.SetActive(true);
-        
+        humanIcon.SetActive(true);        
 
         music.volume = 0.25f;
     }
@@ -234,6 +238,8 @@ public class GameManager : MonoBehaviour
         roomlight.color = darkRoom;
         music.volume = 1f;
 
+        if( HumanCamera )
+            HumanCamera.SetActive( false );
     }
 
     void GameOver()
@@ -274,6 +280,8 @@ public class GameManager : MonoBehaviour
 
         yield return new WaitForSeconds(3);
 
+        if( HumanCamera )
+            HumanCamera.SetActive( true );
         audioSource.clip = DoorOpen;
         roomlight.color = lightRoom;
        Debug.Log( "DoorOpen" );
