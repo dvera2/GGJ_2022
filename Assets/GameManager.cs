@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
 {
 
     public GameObject Cat;
-    public GameObject SafeMessage;
+  //  public GameObject SafeMessage;
     public GameObject Human;
     public GameObject humanIcon;
     public Light roomlight;
@@ -23,9 +23,15 @@ public class GameManager : MonoBehaviour
     public AudioClip Footsteps;
     public AudioClip DoorOpen;
     public AudioClip DoorClose;
+    public AudioClip CatWow;
     AudioSource audioSource;
 
-    float safeTime = 5.0f;
+    [Header("Set Timers")]
+    public float tripingTime;
+    public float safeTimeMin;
+    public float safeTimeMax;
+    float safeTime;
+
     bool safeTimerIsRunning;
 
     float unsafeTime;
@@ -132,9 +138,18 @@ public class GameManager : MonoBehaviour
 
     public void SetFreakingOutTrue()
     {
+
         isFreakingOut = true;
         freakingOutTrippin.SetActive(true);
+ 
         
+    }
+
+    public void PlayFreakingOutSound()
+    {
+        audioSource.clip = CatWow;
+        Debug.Log("sound played");
+        audioSource.Play();
     }
 
     public void SetFreakingOutFalse()
@@ -146,13 +161,11 @@ public class GameManager : MonoBehaviour
 
     public void SetHidden()
     {
-        SafeMessage.SetActive(true);
         isHidden = true;
     }
 
     public void SetVisable()
     {
-        SafeMessage.SetActive(false);
         isHidden = false;
     }
 
@@ -197,6 +210,7 @@ public class GameManager : MonoBehaviour
     void GameOver()
     {
         isGameOver = true;
+        isFreakingOut = false;
         if (breakablesInRoom == 0)
         {
             finalMessage.text = "Sucess! You broke everything!";
@@ -207,7 +221,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            finalMessage.text = "You got caught distorying...";
+            finalMessage.text = "You got caught destorying stuff...";
         }
         caught.gameObject.SetActive(true);
         PlayState.SetActive(false);
@@ -218,7 +232,7 @@ public class GameManager : MonoBehaviour
 
     void setSafeTimer()
     {
-        float randomTime = Random.Range(5,10);
+        float randomTime = Random.Range(safeTimeMin,safeTimeMax);
         safeTime = randomTime;
     }
 
@@ -227,19 +241,18 @@ public class GameManager : MonoBehaviour
         Safetimer.text = "Act natural!!";
         audioSource.clip = Footsteps;
         audioSource.Play();
-        //Debug.Log( "Footsteps" );
+        Debug.Log( "Footsteps" );
 
         yield return new WaitForSeconds(3);
 
         audioSource.clip = DoorOpen;
         roomlight.color = lightRoom;
-       // Debug.Log( "DoorOpen" );
+       Debug.Log( "DoorOpen" );
         
         doorAnim.SetBool("IsOpen", true);
         yield return new WaitForSeconds(1);
 
         audioSource.Play();
-     //   Debug.Log( "Play #1" );
         makeHumanActive();
         safeTimerIsRunning = false;
         unsafeTimerIsRunning = true;
