@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 1680507784729059455}
   - component: {fileID: 1680507784729059440}
   - component: {fileID: 1680507784729059441}
-  - component: {fileID: 1680507784729059442}
   - component: {fileID: 1680507784729059454}
   - component: {fileID: 1680507784729059443}
+  - component: {fileID: 6555617254709028756}
   m_Layer: 0
   m_Name: CAT-YO
   m_TagString: Untagged
@@ -85,19 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &1680507784729059442
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1680507784729059444}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.013046, y: 1, z: 0.6007073}
-  m_Center: {x: 0.04989934, y: 0, z: 0.012679234}
 --- !u!54 &1680507784729059454
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -132,7 +119,23 @@ MonoBehaviour:
   speed: 10
   body: {fileID: 1680507784729059454}
   jumpHeight: 10
+  extraGravity: 0
+  airControl: 0
   isFreakingOut: 0
+--- !u!136 &6555617254709028756
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680507784729059444}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5060775
+  m_Height: 1.9347284
+  m_Direction: 0
+  m_Center: {x: -0.0030418634, y: 0.01547122, z: 0}
 --- !u!1 &1680507784793797839
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,8 +162,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1680507784793797839}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.01, y: 1.35, z: 0}
-  m_LocalScale: {x: 0.37952366, y: 0.37952366, z: 0.37952366}
+  m_LocalPosition: {x: 0, y: -0.639, z: 0}
+  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
   m_Children: []
   m_Father: {fileID: 1680507784729059455}
   m_RootOrder: 0

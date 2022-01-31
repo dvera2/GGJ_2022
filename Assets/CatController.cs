@@ -131,6 +131,7 @@ public class CatController : MonoBehaviour
         if(otherThing.gameObject.tag == "Catnip")
         {
             isFreakingOut = true;
+            gm.PlayFreakingOutSound();
             Destroy(otherThing.gameObject);
         }
         
