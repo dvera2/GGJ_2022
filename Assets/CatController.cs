@@ -33,11 +33,18 @@ public class CatController : MonoBehaviour
     public bool isFreakingOut;
 
     SpriteRenderer sprites;
+    HashSet<Collider> _colliderSet;
 
     // Start is called before the first frame update
     void Start()
     {
+        _colliderSet = new HashSet<Collider>();
         sprites = CatSprites.GetComponentInChildren<SpriteRenderer>();
+    }
+
+    private void OnDestroy()
+    {
+        _colliderSet?.Clear();
     }
 
     // Update is called once per frame
@@ -154,6 +161,8 @@ public class CatController : MonoBehaviour
         Debug.Log("Hiding");
         if (other.tag == "Hide")
         {
+            _colliderSet.Add( other );
+
             CatAnim.SetBool("isHiding", true);
             gm.SetHidden();
             isFreakingOut = false;
@@ -166,8 +175,13 @@ public class CatController : MonoBehaviour
         Debug.Log("Out");
         if (other.tag == "Hide")
         {
-            CatAnim.SetBool("isHiding", false);
-            gm.SetVisable();
+            _colliderSet.Remove( other );
+
+            if( _colliderSet.Count == 0 )
+            {
+                CatAnim.SetBool( "isHiding", false );
+                gm.SetVisable();
+            }
             
         }
     }

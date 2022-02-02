@@ -73,6 +73,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        breakablesInRoom = FindObjectsOfType<Breakable>().Length;
+
         points = 0;
         score.text = points.ToString();
         safeTimerIsRunning = true;
@@ -125,6 +127,14 @@ public class GameManager : MonoBehaviour
                 if (isFreakingOut)
                 {
                     GameOver();
+                }
+            }
+
+            if(unsafeTime < 1f)
+            {
+                if( Human.TryGetComponent( out Animator anim ) )
+                {
+                    anim.SetBool( "IsVisible", false );
                 }
             }
 
@@ -220,9 +230,15 @@ public class GameManager : MonoBehaviour
         {
             audioSource.clip = HumanWalksIn;
             audioSource.Play();
-        }
 
-        Human.SetActive(true);
+            Human.SetActive( true );
+
+            if( Human.TryGetComponent( out Animator anim ) )
+            {
+                anim.SetBool( "IsVisible", true );
+            }
+        }
+        
         humanIcon.SetActive(true);        
 
         music.volume = 0.25f;
@@ -230,16 +246,20 @@ public class GameManager : MonoBehaviour
 
     void makeHumanInactive()
     {
-        doorAnim.SetBool("IsOpen", false);
-        audioSource.clip = DoorClose;
-        audioSource.Play();
-        Human.SetActive(false);
-        humanIcon.SetActive(false);
-        roomlight.color = darkRoom;
-        music.volume = 1f;
+        if( Human.activeSelf )
+        {
+            audioSource.clip = DoorClose;
+            audioSource.Play();
+            Human.SetActive( false );
+            humanIcon.SetActive( false );
+            doorAnim.SetBool( "IsOpen", false );
 
-        if( HumanCamera )
-            HumanCamera.SetActive( false );
+            roomlight.color = darkRoom;
+            music.volume = 1f;
+
+            if( HumanCamera )
+                HumanCamera.SetActive( false );
+        }
     }
 
     void GameOver()
@@ -279,6 +299,7 @@ public class GameManager : MonoBehaviour
         Debug.Log( "Footsteps" );
 
         yield return new WaitForSeconds( 2 );
+
         if( HumanCamera )
             HumanCamera.SetActive( true );
 
@@ -286,13 +307,14 @@ public class GameManager : MonoBehaviour
 
         audioSource.clip = DoorOpen;
         roomlight.color = lightRoom;
-       Debug.Log( "DoorOpen" );
+        Debug.Log( "DoorOpen" );
         
         doorAnim.SetBool("IsOpen", true);
+        makeHumanActive();
+        
         yield return new WaitForSeconds(1);
 
         audioSource.Play();
-        makeHumanActive();
         safeTimerIsRunning = false;
         unsafeTimerIsRunning = true;
         unsafeTime = 5.0f;
