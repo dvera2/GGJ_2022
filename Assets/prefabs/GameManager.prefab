@@ -966,7 +966,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2035202852
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1420,6 +1420,7 @@ MonoBehaviour:
   Cat: {fileID: 0}
   Human: {fileID: 0}
   humanIcon: {fileID: 1915870793}
+  HumanCamera: {fileID: 0}
   roomlight: {fileID: 0}
   darkRoom: {r: 0.20630693, g: 0.13501246, b: 0.7735849, a: 0}
   lightRoom: {r: 0.8867924, g: 0.75189596, b: 0.38065147, a: 0}

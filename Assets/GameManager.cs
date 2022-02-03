@@ -167,6 +167,11 @@ public class GameManager : MonoBehaviour
         {
             isFreakingOut = true;
             freakingOutTrippin.SetActive( true );
+            if(freakingOutTrippin.TryGetComponent(out Animator anim))
+            {
+                anim.SetBool( "Freakout", true );
+            }
+
             music.volume = 0.1f;
         }
         
@@ -189,8 +194,11 @@ public class GameManager : MonoBehaviour
         }
 
         isFreakingOut = false;
-        freakingOutTrippin.SetActive(false);
-       
+        //freakingOutTrippin.SetActive(false);
+        if( freakingOutTrippin.TryGetComponent( out Animator anim ) )
+        {
+            anim.SetBool( "Freakout", false );
+        }
     }
 
     public void SetHidden()
