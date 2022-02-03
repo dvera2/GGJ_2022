@@ -172,23 +172,23 @@ public class GameManager : MonoBehaviour
                 anim.SetBool( "Freakout", true );
             }
 
-            music.volume = 0.1f;
+            //music.volume = 0.1f;
         }
         
     }
 
     public void PlayFreakingOutSound()
     {
-        audioSource.clip = CatWow;
-        Debug.Log("sound played");
-        audioSource.Play();
+        //audioSource.clip = CatWow;
+        //Debug.Log("sound played");
+        //audioSource.Play();
     }
 
     public void SetFreakingOutFalse()
     {
         if( isFreakingOut )
         {
-            music.volume = 1f;
+            //music.volume = 1f;
             if( audioSource.clip == CatWow )
                 audioSource.Stop();
         }
